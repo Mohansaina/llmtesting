@@ -1,0 +1,17 @@
+{
+  "name": "llm-customer-support-debugger",
+  "version": "1.0.0",
+  "description": "A tool to debug and test LLM-based customer support flows",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm start",
+    "client": "cd frontend && npm run dev"
+  },
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "keywords": ["llm", "debugger", "customer-support"],
+  "author": "Your Name",
+  "license": "MIT"
+}
