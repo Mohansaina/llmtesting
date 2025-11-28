@@ -5,68 +5,296 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LLM Customer Support Flow Debugger</title>
   <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --success-color: #4cc9f0;
+      --danger-color: #f72585;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --gray-color: #6c757d;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
-      color: #333;
+      color: var(--dark-color);
+      background-color: #fafafa;
+    }
+
+    .container {
+      width: 90%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
-      background-color: #f8f9fa;
+      padding: 0 1rem;
     }
-    .header {
+
+    /* Navbar */
+    .navbar {
+      background-color: white;
+      box-shadow: var(--box-shadow);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 1.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark-color);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 10rem 0 5rem;
       text-align: center;
-      padding: 2rem 0;
       background: linear-gradient(135deg, #4361ee, #3a0ca3);
       color: white;
-      border-radius: 8px;
-      margin-bottom: 2rem;
+      margin-top: 20px;
     }
-    .content {
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .cta-button {
+      background-color: white;
+      color: var(--primary-color);
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--box-shadow);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Sections */
+    section {
+      padding: 5rem 0;
+    }
+
+    section h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--secondary-color);
+    }
+
+    /* How It Works */
+    .how-it-works {
+      background-color: var(--light-color);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
       background: white;
       padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .loading {
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
       text-align: center;
-      padding: 2rem;
-      color: #666;
+      transition: var(--transition);
     }
-    .noscript {
-      background: #fff3cd;
-      border: 1px solid #ffeaa7;
-      border-radius: 4px;
-      padding: 1rem;
-      margin: 1rem 0;
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    /* Footer */
+    .footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .nav-links {
+        margin-top: 1rem;
+      }
+      
+      .nav-links li {
+        margin: 0 0.5rem;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+      
+      .cards {
+        grid-template-columns: 1fr;
+      }
+      
+      section {
+        padding: 3rem 0;
+      }
+      
+      section h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .nav-links li {
+        margin: 0.3rem;
+      }
+      
+      .hero {
+        padding: 8rem 0 3rem;
+      }
     }
   </style>
-  <script type="module" crossorigin src="./assets/index-26e5c15d.js"></script>
-  <link rel="stylesheet" href="./assets/index-2caf5731.css">
 </head>
 <body>
-  <div class="header">
-    <h1>LLM Customer Support Flow Debugger</h1>
-    <p>A tool for testing and debugging LLM-based customer support responses</p>
-  </div>
-  
-  <div class="content">
-    <div id="app">
-      <div class="loading">
-        <h2>Loading Application...</h2>
-        <p>If this message persists, please ensure JavaScript is enabled in your browser.</p>
-        <noscript>
-          <div class="noscript">
-            <strong>JavaScript Required</strong>
-            <p>This application requires JavaScript to function properly. Please enable JavaScript in your browser settings.</p>
-          </div>
-        </noscript>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container container">
+      <div class="logo">LLM Debugger</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <h1>Debug and Test Your LLM Support Flows</h1>
+      <p class="subtitle">A tool that tests LLM responses against expected answers and business rules for customer support.</p>
+      <button class="cta-button" onclick="document.getElementById('demo').scrollIntoView({behavior: 'smooth'})">Try the Demo</button>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="how-it-works">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="icon">📥</div>
+          <h3>Input</h3>
+          <p>Support questions + expected answers</p>
+        </div>
+        <div class="card">
+          <div class="icon">🤖</div>
+          <h3>LLM Response</h3>
+          <p>Model answers each question</p>
+        </div>
+        <div class="card">
+          <div class="icon">📊</div>
+          <h3>Analysis</h3>
+          <p>Scores, missing keywords, pass/fail</p>
+        </div>
       </div>
     </div>
-  </div>
-  
-  <footer style="text-align: center; margin-top: 2rem; color: #666;">
-    <p>LLM Customer Support Flow Debugger &copy; 2023</p>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="container">
+      <h2>About This Project</h2>
+      <p>This is a personal project designed to test and debug LLM-based customer support agents. It's inspired by real-world workflows where AI agents must follow strict business rules.</p>
+      <div style="margin-top: 2rem; padding: 1rem; background: #e9ecef; border-radius: 8px;">
+        <h3>Tech Used</h3>
+        <ul style="list-style-type: none; padding: 0;">
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">✓ HTML, CSS, JavaScript</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">✓ Vite (Frontend Build Tool)</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid #dee2e6;">✓ Node.js + Express (Backend)</li>
+          <li style="padding: 0.5rem 0;">✓ OpenAI API (Optional)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2023 LLM Customer Support Flow Debugger. All rights reserved.</p>
+    </div>
   </footer>
 </body>
 </html>
